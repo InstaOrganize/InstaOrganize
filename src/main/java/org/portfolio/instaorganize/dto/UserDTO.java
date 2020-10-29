@@ -1,29 +1,28 @@
-package org.portfolio.instaorganize.model;
+package org.portfolio.instaorganize.dto;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity
-public class User {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+public class UserDTO {
     private UUID userId;
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
-    @Temporal(TemporalType.DATE)
-    private Date createdDate;
-    @Temporal(TemporalType.DATE)
-    private Date modifiedDate;
+
+    public UserDTO(String userName, String firstName) {
+        this.userName = userName;
+        this.firstName = firstName;
+    }
 
     public UUID getUserId() {
         return userId;
@@ -63,21 +62,5 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
     }
 }
