@@ -1,9 +1,8 @@
-package org.portfolio.instaorganize.model;
+package org.portfolio.instaorganize.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
@@ -16,6 +15,7 @@ public class User {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private UUID userId;
+    private String userName;
     private String firstName;
     private String lastName;
     private String email;
@@ -30,6 +30,14 @@ public class User {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFirstName() {
