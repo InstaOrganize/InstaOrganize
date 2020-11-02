@@ -1,4 +1,4 @@
-package org.portfolio.instaorganize.model;
+package org.portfolio.instaorganize.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -17,7 +17,7 @@ public class Board {
     private UUID boardId;
     private String name;
     @ManyToOne
-    private User createdById;
+    private User createdBy;
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @Temporal(TemporalType.DATE)
@@ -39,12 +39,12 @@ public class Board {
         this.name = name;
     }
 
-    public User getCreatedById() {
-        return createdById;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreatedById(User createdById) {
-        this.createdById = createdById;
+    public void setCreatedBy(User createdById) {
+        this.createdBy = createdById;
     }
 
     public Date getCreatedDate() {

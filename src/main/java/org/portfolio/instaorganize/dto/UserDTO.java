@@ -1,15 +1,5 @@
 package org.portfolio.instaorganize.dto;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Collection;
-import java.util.Date;
 import java.util.UUID;
 
 public class UserDTO {
@@ -18,6 +8,10 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
+
+    public UserDTO() {
+
+    }
 
     public UserDTO(String userName, String firstName) {
         this.userName = userName;

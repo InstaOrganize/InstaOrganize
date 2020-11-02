@@ -1,7 +1,6 @@
 package org.portfolio.instaorganize.controller;
 
-import org.portfolio.instaorganize.model.Board;
-import org.portfolio.instaorganize.repository.BoardRepository;
+import org.portfolio.instaorganize.dto.BoardDTO;
 import org.portfolio.instaorganize.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,18 +16,24 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
     @PostMapping
-    public ResponseEntity<Board> createBoard(@RequestBody Board board) {
+    public ResponseEntity<BoardDTO> createBoard(@RequestBody BoardDTO board) {
         boardService.create(board);
         return new ResponseEntity<>(board, HttpStatus.CREATED);
     }
 
     @GetMapping
-    List<Board> getAllBoards() {
+    List<BoardDTO> getAllBoards() {
         return boardService.getAll();
     }
 
     @GetMapping("/{id}")
-    Board getBoard(@PathVariable String id) {
+    BoardDTO getBoard(@PathVariable String id) {
         return boardService.get(UUID.fromString(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<BoardDTO> updateBoard(@RequestBody BoardDTO board) {
+        boardService.create(board);
+        return new ResponseEntity<>(board, HttpStatus.CREATED);
     }
 }

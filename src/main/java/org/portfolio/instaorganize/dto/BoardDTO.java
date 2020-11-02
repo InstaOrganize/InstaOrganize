@@ -1,16 +1,11 @@
 package org.portfolio.instaorganize.dto;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.portfolio.instaorganize.model.User;
-
-import javax.persistence.*;
-import java.util.Date;
 import java.util.UUID;
 
 public class BoardDTO {
     private UUID boardId;
     private String name;
-    private UserDTO createdById;
+    private UserDTO createdBy;
 
     public UUID getBoardId() {
         return boardId;
@@ -28,11 +23,11 @@ public class BoardDTO {
         this.name = name;
     }
 
-    public UserDTO getCreatedById() {
-        return createdById;
+    public UserDTO getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreatedById(UserDTO createdById) {
-        this.createdById = createdById;
+    public void setCreatedBy(UserDTO createdById) {
+        this.createdBy = createdById;
     }
 }

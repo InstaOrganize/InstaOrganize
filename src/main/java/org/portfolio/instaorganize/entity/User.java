@@ -1,9 +1,8 @@
-package org.portfolio.instaorganize.model;
+package org.portfolio.instaorganize.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;
 
