@@ -1,10 +1,12 @@
 package org.portfolio.instaorganize.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 public class BoardDTO {
     private UUID boardId;
     private String name;
+    private List<TaskGroupDTO> taskGroupDTOS;
     private UserDTO createdBy;
 
     public UUID getBoardId() {
@@ -21,6 +23,14 @@ public class BoardDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<TaskGroupDTO> getTaskGroupDTOS() {
+        return taskGroupDTOS;
+    }
+
+    public void setTaskGroupDTOS(List<TaskGroupDTO> taskGroupDTOS) {
+        this.taskGroupDTOS = taskGroupDTOS;
     }
 
     public UserDTO getCreatedBy() {

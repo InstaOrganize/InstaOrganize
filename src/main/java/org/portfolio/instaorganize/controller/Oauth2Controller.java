@@ -21,8 +21,8 @@ public class Oauth2Controller {
     public ResponseEntity<UserDTO> user(@AuthenticationPrincipal OAuth2User principal) throws JsonProcessingException {
         UserDTO userDTO = userService.findUserByUserName(principal.getAttribute("login"));
         if(userDTO == null) {
-            userDTO =  new UserDTO(principal.getAttribute("login"),principal.getAttribute("name"));
-            userService.create(userDTO);
+            userDTO = userService.create(new UserDTO(principal.getAttribute("login")
+                    ,principal.getAttribute("name")));
         }
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }

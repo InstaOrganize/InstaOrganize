@@ -1,7 +1,7 @@
 package org.portfolio.instaorganize.service;
 
 import org.portfolio.instaorganize.adapter.BoardAdapter;
-import org.portfolio.instaorganize.constants.MessageConstants;
+import org.portfolio.instaorganize.constants.ErrorCodes;
 import org.portfolio.instaorganize.dto.BoardDTO;
 import org.portfolio.instaorganize.exceptions.GenericException;
 import org.portfolio.instaorganize.entity.Board;
@@ -22,40 +22,35 @@ public class BoardService extends BaseService<BoardDTO> {
     @Override
     public List<BoardDTO> getAll() {
         List<Board> entities = boardRepository.findAll();
-        return entities.stream().map(BoardAdapter::convertEntityToDTO)
-                .collect(Collectors.toList());
+        return BoardAdapter.convertEntityToDTOList(entities);
     }
 
     @Override
     public BoardDTO get(UUID id) {
 
         Board entity = boardRepository.findById(id)
-                .orElseThrow(()->new GenericException(MessageConstants.NOT_FOUND));
+                .orElseThrow(()->new GenericException(ErrorCodes.NOT_FOUND));
         return BoardAdapter.convertEntityToDTO(entity);
     }
 
     @Override
-    public void create(BoardDTO dto) {
+    public BoardDTO create(BoardDTO dto) {
         Board entity = BoardAdapter.convertDTOToEntity(dto);
         entity.setCreatedDate(Date.from(Instant.now()));
         entity.setModifiedDate(Date.from(Instant.now()));
-        boardRepository.save(entity);
+        return BoardAdapter.convertEntityToDTO(boardRepository.save(entity));
     }
 
     @Override
     public void update(BoardDTO board) {
 
-        Board entity = boardRepository.findById(board.getBoardId())
-                .orElseThrow(()->new GenericException(MessageConstants.NOT_FOUND));
-        entity.setName(board.getName());
-        entity.setModifiedDate(Date.from(Instant.now()));
-        boardRepository.save(entity);
+        throw new GenericException(ErrorCodes.NOT_IMPLEMENTED);
     }
 
     @Override
     public void delete(BoardDTO board) {
         Board entity = boardRepository.findById(board.getBoardId())
-                .orElseThrow(()->new GenericException(MessageConstants.NOT_FOUND));
+                .orElseThrow(()->new GenericException(ErrorCodes.NOT_FOUND));
         boardRepository.delete(entity);
     }
 }

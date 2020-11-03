@@ -1,7 +1,8 @@
 package org.portfolio.instaorganize.service;
 
+import org.portfolio.instaorganize.adapter.TaskAdapter;
 import org.portfolio.instaorganize.adapter.UserAdapter;
-import org.portfolio.instaorganize.constants.MessageConstants;
+import org.portfolio.instaorganize.constants.ErrorCodes;
 import org.portfolio.instaorganize.dto.UserDTO;
 import org.portfolio.instaorganize.entity.User;
 import org.portfolio.instaorganize.exceptions.GenericException;
@@ -23,29 +24,29 @@ public class UserService extends BaseService<UserDTO> {
     @Override
     public List<UserDTO> getAll() {
         List<User> entities = userRepository.findAll();
-        return entities.stream().map(UserAdapter::convertEntityToDTO)
-                .collect(Collectors.toList());
+        return UserAdapter.convertEntityToDTOList(userRepository.findAll());
     }
 
     @Override
     public UserDTO get(UUID id) {
         User entity = userRepository.findById(id)
-                .orElseThrow(() -> new GenericException(MessageConstants.NOT_FOUND));
+                .orElseThrow(() -> new GenericException(ErrorCodes.NOT_FOUND));
         return UserAdapter.convertEntityToDTO(entity);
     }
 
     @Override
-    public void create(UserDTO userDTO) {
+    public UserDTO create(UserDTO userDTO) {
         User entity = UserAdapter.convertDTOToEntity(userDTO);
         entity.setCreatedDate(Date.from(Instant.now()));
         entity.setModifiedDate(Date.from(Instant.now()));
         userRepository.save(entity);
+        return UserAdapter.convertEntityToDTO(userRepository.save(entity));
     }
 
     @Override
     public void update(UserDTO userDTO) {
         User entity = userRepository.findById(userDTO.getUserId())
-                .orElseThrow(() -> new GenericException(MessageConstants.NOT_FOUND));
+                .orElseThrow(() -> new GenericException(ErrorCodes.NOT_FOUND));
         entity.setFirstName(userDTO.getFirstName());
         entity.setLastName(userDTO.getLastName());
         entity.setEmail(userDTO.getEmail());
@@ -56,7 +57,7 @@ public class UserService extends BaseService<UserDTO> {
     @Override
     public void delete(UserDTO userDTO) {
         User entity = userRepository.findById(userDTO.getUserId())
-                .orElseThrow(() -> new GenericException(MessageConstants.NOT_FOUND));
+                .orElseThrow(() -> new GenericException(ErrorCodes.NOT_FOUND));
         userRepository.delete(entity);
     }
 

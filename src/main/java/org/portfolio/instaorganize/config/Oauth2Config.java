@@ -22,7 +22,7 @@ public class Oauth2Config extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(a -> a
-                .antMatchers("/", "/h2-console/**", "/error", "/webjars/**").permitAll()
+                .antMatchers("/", "/h2-console/**", "/spring-security-rest/**", "/error", "/webjars/**").permitAll()
                 .anyRequest().authenticated())
                 .logout(l -> l
                         .logoutSuccessUrl("/").permitAll())

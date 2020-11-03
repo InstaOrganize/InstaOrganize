@@ -3,39 +3,41 @@ package org.portfolio.instaorganize.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Board {
-
+public class TaskGroup {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    private UUID boardId;
+    private UUID taskGroupId;
     private String name;
     @ManyToOne
     @JoinColumn(name="created_by_id", nullable=true)
     private User createdBy;
-    @OneToMany(mappedBy="board", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<TaskGroup> taskGroupList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name="board_id", nullable=false)
+    private Board board;
+    @OneToMany(mappedBy="taskGroup", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Task> taskList;
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @Temporal(TemporalType.DATE)
     private Date modifiedDate;
 
-    public UUID getBoardId() {
-        return boardId;
+    public UUID getTaskGroupId() {
+        return taskGroupId;
     }
 
-    public void setBoardId(UUID boardId) {
-        this.boardId = boardId;
+    public void setTaskGroupId(UUID taskGroupId) {
+        this.taskGroupId = taskGroupId;
     }
+
 
     public String getName() {
         return name;
@@ -49,16 +51,24 @@ public class Board {
         return createdBy;
     }
 
-    public List<TaskGroup> getTaskGroupList() {
-        return taskGroupList;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public void setTaskGroupList(List<TaskGroup> taskGroup) {
-        this.taskGroupList = taskGroup;
+    public Board getBoard() {
+        return board;
     }
 
-    public void setCreatedBy(User createdById) {
-        this.createdBy = createdById;
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<Task> task) {
+        this.taskList = task;
     }
 
     public Date getCreatedDate() {
