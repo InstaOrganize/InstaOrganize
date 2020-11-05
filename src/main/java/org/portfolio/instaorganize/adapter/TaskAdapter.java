@@ -23,7 +23,7 @@ public class TaskAdapter {
         dto.setDescription(entity.getDescription());
         //dto.setCreatedBy(UserAdapter.convertEntityToDTO(entity.getCreatedBy()));
         //dto.setModifiedBy(UserAdapter.convertEntityToDTO(entity.getModifiedBy()));
-        if (entity.getTaskGroup() == null)
+        if (entity.getTaskGroup() != null)
             dto.setTaskGroupId(entity.getTaskGroup().getTaskGroupId());
         if (entity.getCommentList() != null)
             dto.setCommentList(entity.getCommentList().stream()

@@ -6,8 +6,10 @@ import org.portfolio.instaorganize.adapter.TaskAdapter;
 import org.portfolio.instaorganize.constants.ErrorCodes;
 import org.portfolio.instaorganize.dto.CommentDTO;
 import org.portfolio.instaorganize.entity.Comment;
+import org.portfolio.instaorganize.entity.Task;
 import org.portfolio.instaorganize.exceptions.GenericException;
 import org.portfolio.instaorganize.repository.CommentRepository;
+import org.portfolio.instaorganize.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ import java.util.stream.Collectors;
 public class CommentService extends BaseService<CommentDTO> {
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Override
     public List<CommentDTO> getAll() {
@@ -36,8 +41,14 @@ public class CommentService extends BaseService<CommentDTO> {
     @Override
     public CommentDTO create(CommentDTO commentDTO) {
         Comment entity = CommentAdapter.convertDTOToEntity(commentDTO);
+        Task task = taskRepository.findById(commentDTO.getTaskId())
+                .orElseThrow(() -> new GenericException(ErrorCodes.NOT_FOUND));
         entity.setCreatedDate(Date.from(Instant.now()));
         entity.setModifiedDate(Date.from(Instant.now()));
+        task.getCommentList().remove(entity);
+        task.getCommentList().add(entity);
+        entity.setTask(task);
+        taskRepository.save(task);
         return CommentAdapter.convertEntityToDTO(commentRepository.save(entity));
     }
 

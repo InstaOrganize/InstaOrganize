@@ -1,3 +1,4 @@
+oauthenabled: false
 spring:
   datasource:
     driverClassName: org.h2.Driver

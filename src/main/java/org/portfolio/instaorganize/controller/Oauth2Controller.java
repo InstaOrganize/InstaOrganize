@@ -19,10 +19,18 @@ public class Oauth2Controller {
     private UserService userService;
     @GetMapping("/user")
     public ResponseEntity<UserDTO> user(@AuthenticationPrincipal OAuth2User principal) throws JsonProcessingException {
-        UserDTO userDTO = userService.findUserByUserName(principal.getAttribute("login"));
-        if(userDTO == null) {
-            userDTO = userService.create(new UserDTO(principal.getAttribute("login")
-                    ,principal.getAttribute("name")));
+        UserDTO userDTO = null;
+        if(principal != null) {
+            userDTO = userService.findUserByUserName(principal.getAttribute("login"));
+            if (userDTO == null) {
+                userDTO = userService.create(new UserDTO(principal.getAttribute("login")
+                        , principal.getAttribute("name")));
+            }
+        } else {
+            userDTO = userService.findUserByUserName("Random");
+            if (userDTO == null) {
+                userDTO = userService.create(new UserDTO("Random","Random"));
+            }
         }
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }

@@ -21,6 +21,7 @@ public class TaskController {
     private TaskService taskService;
     @Autowired
     private CommentService commentService;
+
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@RequestBody TaskDTO task) {
         taskService.create(task);
@@ -29,22 +30,30 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks() {
-        return new ResponseEntity<>(taskService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(taskService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTask(@PathVariable String id) {
-        return new ResponseEntity<>(taskService.get(UUID.fromString(id)),HttpStatus.OK);
+        return new ResponseEntity<>(taskService.get(UUID.fromString(id)), HttpStatus.OK);
     }
 
     @GetMapping("{id}/comments")
     public ResponseEntity<List<CommentDTO>> getCommentsByTask(@PathVariable String id) {
-        return new ResponseEntity<>(commentService.getCommentsByTaskId(UUID.fromString(id)),HttpStatus.OK);
+        return new ResponseEntity<>(commentService.getCommentsByTaskId(UUID.fromString(id)), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<TaskDTO> updateTaskGroup(@RequestBody (required = false) TaskDTO task,
+                                               @PathVariable String id,
+                                               @RequestParam String taskGroupId) {
+        TaskDTO dto = taskService.updateTaskBoard(UUID.fromString(id), UUID.fromString(taskGroupId));
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<TaskDTO> updateBoard(@RequestBody TaskDTO task) {
-        taskService.create(task);
+    public ResponseEntity<TaskDTO> updateTaskGroup(@RequestBody TaskDTO task) {
+        taskService.update(task);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
